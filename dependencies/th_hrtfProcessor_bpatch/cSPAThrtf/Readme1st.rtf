@@ -1,0 +1,109 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww30500\viewh25560\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs24 \cf0 Lyon (France) 05/01/2016\
+\
+The cSPAThrtf is a project created in november 2015 to be used as a binaural Max For Live plugin for theatre performances. It is based on the FFT-based binaural panner developed by Jakod Hougaard Andersen in 2011 : {\field{\*\fldinst{HYPERLINK "https://cycling74.com/toolbox/fft-based-binaural-panner/#.VouufEuqOWY"}}{\fldrslt https://cycling74.com/toolbox/fft-based-binaural-panner/#.VouufEuqOWY}}\
+\pard\pardeftab720
+\cf0 \'ab\'a0FFT-based binaural panner was inspired by other 
+\i Max
+\i0  projects such as 
+\i Head in Space
+\i0  ({\field{\*\fldinst{HYPERLINK "http://sites.google.com/site/dariopizzamiglio/projects/head-in-space"}}{\fldrslt http://sites.google.com/site/dariopizzamiglio/projects/head-in-space}}) and 
+\i Binaural Tools
+\i0  ({\field{\*\fldinst{HYPERLINK "http://www.ece.ucdavis.edu/binaural/binaural_tools.html"}}{\fldrslt http://www.ece.ucdavis.edu/binaural/binaural_tools.html}}). The 
+\i FFT-based binaural panner
+\i0  was created to reduce the substantial load on the cpu that comes with convolution in the time-domain. It uses 
+\i pfft~ 
+\i0 to perform an equivalent but \'91cheaper\'92 mutliplying process in the frequency-domain. \
+The panner uses the impulse responses from the 
+\i CIPIC HRTF database
+\i0  ({\field{\*\fldinst{HYPERLINK "http://interface.cipic.ucdavis.edu/sound/hrtf.html"}}{\fldrslt http://interface.cipic.ucdavis.edu/sound/hrtf.html}}) but in a frequency-domain and interpolated version.\'a0\'bb\
+\
+LIB :\
+This package only contains one set of HRTF matrix files (Subject3).\
+You can download more on : {\field{\*\fldinst{HYPERLINK "http://4-to-one.dk/fftBinPan/All%20HRTF%20matrix%20files.rar"}}{\fldrslt http://4-to-one.dk/fftBinPan/All%20HRTF%20matrix%20files.rar}} and put them in the lib folder.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 TOOLS :\
+* cSPAThrtf works with two java classes that you\'92ll find in the tools folder.\
+- DirectionAndDistanceHandler.class calculates the appropriate azimuth and elevation on the basis of a provided listener position (message: listenerPos x y z), sound position (message: soundPos x y z) and an optional listener rotation (message: listenerRot (unit quaternion)). Furtermore it calculates the sound volume for both ears as well as the delay of the sound.\
+Positions are given in meters and the optional listener rotation is given with unit quaternions with the scalar part as first argument. Listener rotation is, however, not set in this patch.\
+- HRTFSubjectMatcher.class is used by the HRTF Subject Matcher subpatch to determine and select an appropriate HRTF file set for your head.\
+However, it must be mentioned that this matcher is a very basic prototype and that it by no means is scientifically valid, but might serve at a rudimentary tool for selecting an appropriate HRTF file set. \
+You can modify the java-object 'HRTFSubjectMatcher.java' to your own needs.\
+\
+* cSAThrtf uses ambimonitor by Ambisonics as interface. You\'92ll find the external and help in the tools folder.\ul \
+\ulnone \
+\
+IN ORDER TO USE cSPAThrtf in Max7 :\
+\
+1) Place DirectionAndDistanceHandler.class, HRTFSubjectMatcher.class, ambimonitor.mxo and ambimonitor.maxhelp into Max User Library (User/Documents/Max7/Library).\
+\
+2) Open Max 7 and go to Options->File Preferences. Check that User Library is set and that Subfolders is on.\
+Close Max7.\
+\
+3) Open cSPAThrtfV1.maxpat with max7. \
+\
+4) Set signal vector size to 1024 and sample rate to 44100 in the Audio Status menu (Options->Audio Status). The reason for this is that the Head Related Impulse Responses have been converted to the frequency domain with a fft size of 2048 (the pfft~ subpatches operate on half fft size) and that they are based on 44100 samps/sec recordings.\
+\
+5) Start DSP, if not already running (press the ezdac~ speaker button).\
+\
+6) Open 44,1 kHz samples with \'ab\'a0Open\'a0\'bb and select \'ab\'a0Play\'a0\'bb. \
+Activate \'ab\'a0Loop\'a0\'bb if necessary.\
+\
+\
+IN ORDER TO USE cSPAThrtfV1-M4L in Ableton Live :\
+\
+1) Place DirectionAndDistanceHandler.class, HRTFSubjectMatcher.class, ambimonitor.mxo and ambimonitor.maxhelp into Max User Library (User/Documents/Max7/Library).\
+\
+2) Open Max 7 and go to Options->File Preferences. Check that User Library is set and that Subfolders is on. \
+Close Max7.\
+\
+3) Open Ableton Live. Go to Preferences->Audio and set sample rate to 44100Hz and signal vector size to 1024.\
+\
+4) Drag n\'92 drop cSPAThrtf-M4L.amxd into an audio channel.\
+\
+5) Put 44,1kHz samples in the audio channel.\
+\
+\
+OPERATING :\
+\
+Select \'ab\'a0Set HRTF file folder\'a0\'bb and select the lib folder (where the HRTF file sets are). \
+Then Select Subject or use the HRTF Subject Matcher.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \ul \ulc0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \ulnone Virtual room dimensions :\ul \
+\ulnone Set the dimensions (in meters) of the virtual room you want to use.\
+Reset dimensions with Dim Reset if necessary.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \ul \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \ulnone Mono/Stereo : \
+cSPAThrtfV1 can be used in Mono or Stereo (DualMono) mode.\
+Mono audio file : Select Mono\
+Stereo audio file : Select Stereo to work with the two channels of the stereo audio file OR select Mono to work with a mono summation of the two channels of the stereo audio file.\
+\
+Test function :\
+Select Test to activate the clock testing sound (located in the lib folder).\
+Select Azimuth to test Azimuth.\
+Select Elevation to test Elevation.\
+NB : The test function only works on Mono mode.\
+\
+Ambimonitor interface :\
+L represents the Listener position in the space\
+S1, as Sound 1, represents the CH1 position in the space.\
+S2, as Sound 2, represents the CH2 position in the space.\
+Move points as you want. Reset positions with Pos Reset if necessary.\
+\
+Sound 1, Listener, Sound 2 (at the left in Presentation Mode) :\
+Presents Sounds and Listener positions in meters and coordinates.\
+M4L : The coordinates are given as plugin values and allows you to use automation in Ableton Live.\
+\
+Enjoy !\
+\
+Cl\'e9ment Hubert}
